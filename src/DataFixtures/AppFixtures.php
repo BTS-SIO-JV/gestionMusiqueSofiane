@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use Faker\Factory;
 use App\Entity\Album;
+use App\Entity\Style;
 use App\Entity\Artiste;
 use App\Entity\Morceau;
 use Doctrine\Persistence\ObjectManager;
@@ -16,7 +17,17 @@ class AppFixtures extends Fixture
     {
         $faker=Factory::create("fr_FR");
 
-        
+        $lesStyles=$this->chargeFichier("style.csv");
+
+        foreach ($lesStyles as $value) {
+            $style=new Style();
+            $style      ->setId(intval($value[0]))
+                        ->setNom($value[1])
+                        ->setCouleur($faker->safeColorName());
+            $manager->persist($style);
+            $this->addReference("style".$style->getId(),$style);
+        }
+
         $lesArtistes=$this->chargeFichier("artiste.csv");
 
         $genres=["men,women"];
@@ -39,6 +50,7 @@ class AppFixtures extends Fixture
             $album    ->setId(intval($value[0]))
                         ->setNom($value[1])
                         ->setDate(intval($value[2]))
+                        ->addStyle($this->getReference("style".$value[3]))
                         ->setArtiste($this->getReference("artiste".$value[4]))
                         ->setImage($faker->imageUrl(640,480));
             $manager->persist($album);
