@@ -30,14 +30,15 @@ class AppFixtures extends Fixture
 
         $lesArtistes=$this->chargeFichier("artiste.csv");
 
-        $genres=["men,women"];
+        $genres=["men","women"];
         foreach ($lesArtistes as $value) {
             $artiste=new Artiste();
             $artiste    ->setId(intval($value[0]))
                         ->setNom($value[1])
                         ->setDescription("<p>".join("</p><p>",$faker->paragraphs(5))."</p>")
                         ->setSite($faker->url())
-                        ->setImage('https://randomuser/me/api/portraits/'.$faker->randomElement($genres)."/".mt_rand(1,99).".jpg")
+                        ///bug sur le $faker->randomElement($genres) : ex -> https://randomuser.me/api/portraits/men,women/54.jpg
+                        ->setImage('https://randomuser.me/api/portraits/' . $faker->randomElement($genres)."/". mt_rand(1,99).".jpg")
                         ->setType($value[2]);
             $manager->persist($artiste);
             $this->addReference("artiste".$artiste->getId(),$artiste);
@@ -64,6 +65,7 @@ class AppFixtures extends Fixture
             $morceau    ->setId(intval($value[0]))
                         ->setTitre($value[2])
                         ->setAlbum($this->getReference("album".$value[1]))
+                        ->setPiste(intval($value[4]))
                         ->setDuree(date("i:s",$value[3]));
             $manager->persist($morceau);
             $this->addReference("morceau".$morceau->getId(),$morceau);

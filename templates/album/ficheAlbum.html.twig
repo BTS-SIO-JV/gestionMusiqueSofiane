@@ -1,62 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Fiche artiste !{% endblock %}
+{% block title %}Fiche album !{% endblock %}
 
 {% block body %}
-<h1 class="pt-2 text-center">Fiche de l'artiste</h1>
+<h1 class="pt-2 text-center">Fiche de l'album</h1>
 <hr>
-<div class="row pt-2">
 
-    {% set nbAlbums = leArtiste.albums|length %}
         <div class="card mb-3">
-            <h3 class="card-header"> {{leArtiste.nom}} </h3>
+            <h3 class="card-header"> {{leAlbum.nom}} </h3>
 
             <div class="row">
                 <div class="col-3 d-flex align-items-center mx-auto">
-                    <img class="avatar mx-auto d-block " style="height: auto; width : 200px; display: block;" src="{{leArtiste.image}}" alt"Card image">
+                    <img class="avatar mx-auto d-block " style="height: auto; width : 200px; display: block;" src="{{leAlbum.image}}" alt"Card image">
                 </div>
 
                 <div class="col">
                     <div class="card-body">
                         <h5 class="card-title">
-                        <a href="" class="badge badge-success"> {{nbAlbums}}  {% if nbAlbums>1 %} albums {% else %} album {% endif %} </a>
+                        <a href=" {{path('ficheArtiste', {'id':leAlbum.artiste.id})}} " class="badge badge-success"> {{leAlbum.artiste.nom}} </a>
                         </h5>
                     </div>
                     <div class="card-body">
-                        <p class="card-text"> {{leArtiste.description|raw}}</p>
+                        <p class="card-text"> {{leAlbum.date}}</p>
                     </div>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            {% if leArtiste.type==0 %} Artiste {% else %} Groupe {% endif %}
+                            {% for leStyle in leAlbum.styles %}
+                                <span class="badge" style="background-color: {{leStyle.couleur}}">{{leStyle.nom}}</span> 
+                            {% endfor %}
                         </li>
-                        <li class="list-group-item"> <a href="{{leArtiste.site}}">Site web</a> </li>
+                        {% set nb = leAlbum.morceaux|length %}         
+                        <li class="list-group-item"> 
+                            {{nb}} {% if nb >1 %}  morceaux {% else %} morceau{% endif %} 
+                        </li>
                     </ul>
 
                 </div>
 
             </div>
         </div>
-</div>
 
 <table class="table table-hover mx-auto">
   <thead>
     <tr>
-      <th scope="col-3">Photo</th>
-      <th scope="col-4">Nom</th>
-      <th scope="col-1">Date</th>
-      <th scope="col-3">Styles</th>
-      <th scope="col-1">Morceaux</th>
+      <th scope="col-3">Piste</th>
+      <th scope="col-4">Titre</th>
+      <th scope="col-1">Durée</th>
+      <th scope="col-3">Note</th>
     </tr>
   </thead>
   <tbody>
 
-  {% for leAlbum in leArtiste.albums %}
+  {% for leMorceau in leAlbum.morceaux %}
         <tr class="table-primary">
-            <td><img class="miniature"src=" {{leAlbum.image}} " alt=""></td>
-            <td scope="row"> {{leAlbum.nom}} </td>
-            <td> {{leAlbum.date}} </td>
+            <td scope="row">{{leMorceau.piste}} </td>
+            <td> {{leMorceau.titre}} </td>
+            <td> {{leMorceau.duree}} </td>
             <td></td>
-            <td>{{leAlbum.morceaux|length}}</td>
         </tr>
   {% endfor %}
 

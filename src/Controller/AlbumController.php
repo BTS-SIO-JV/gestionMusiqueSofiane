@@ -13,7 +13,7 @@ class AlbumController extends AbstractController
     /**
      * @Route("/albums", name="albums",methods={"GET"})
      */
-    public function listealbums(AlbumRepository $repo): Response
+    public function listeAlbums(AlbumRepository $repo): Response
     {
         $albums=$repo->findAll();
         return $this->render('album/listeAlbums.html.twig', [
