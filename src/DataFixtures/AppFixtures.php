@@ -53,7 +53,7 @@ class AppFixtures extends Fixture
                         ->setDate(intval($value[2]))
                         ->addStyle($this->getReference("style".$value[3]))
                         ->setArtiste($this->getReference("artiste".$value[4]))
-                        ->setImage($faker->imageUrl(640,480));
+                        ->setImage('https://e-cdn-images.dzcdn.net/images/cover/19d1fb5c6f0debd48d887df8e129e4bf/264x264-000000-80-0-0.jpg');
             $manager->persist($album);
             $this->addReference("album".$album->getId(),$album);
         }
