@@ -39,20 +39,21 @@ class AlbumRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Album[] Returns an array of Album objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Album[] Returns an array of Album objects
+    */
+   public function listeAlbumsComplete()
+   {
+       return $this->createQueryBuilder('a')
+            ->select('a','s','art','m')
+            ->innerjoin('a.styles','s')
+            ->innerjoin('a.artiste','art')
+            ->innerjoin('a.morceaux','m')
+            ->orderBy('a.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+       ;
+   }
 
 //    public function findOneBySomeField($value): ?Album
 //    {
