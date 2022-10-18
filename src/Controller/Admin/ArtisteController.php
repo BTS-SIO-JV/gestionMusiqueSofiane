@@ -2,7 +2,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Artiste;
+use App\Form\ArtisteType;
 use App\Repository\ArtisteRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +28,27 @@ class ArtisteController extends AbstractController
 
         return $this->render('admin/artiste/listeArtistes.html.twig', [
             'lesArtistes' => $artistes
+        ]);
+        
+    }
+
+
+    /**
+     * @Route("admin/artiste/ajout", name="admin_artiste_ajout",methods={"GET","POST"})
+     */
+    public function ajoutArtiste(Request $request, EntityManagerInterface $manager): Response
+    {
+        $artiste=new Artiste;
+        $form=$this->createForm(ArtisteType::class,$artiste);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($artiste);
+            $manager->flush();
+            return $this->redirectToRoute('admin_artistes');
+        }
+        return $this->render('admin/artiste/formAjoutArtiste.html.twig', [
+            'formArtiste' => $form->createView()
         ]);
         
     }
