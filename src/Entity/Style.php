@@ -6,9 +6,20 @@ use App\Repository\StyleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=StyleRepository::class)
+ * @UniqueEntity(
+ *     fields={"nom"},
+ *          message="Le nom choisi est déja utilisé."
+ * )
+ * @UniqueEntity(
+ *     fields={"couleur"},
+ *          message="La couleur choisie est déja utilisée."
+ * )
  */
 class Style
 {
@@ -21,11 +32,19 @@ class Style
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le nom du style est obligatoire")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "Le nom du style doit faire au minimum {{ limit }} caractères",
+     *      maxMessage = "Le nom du style doit faire au maximum {{ limit }} caractères"
+     *)
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="La couleur est obligatoire")
      */
     private $couleur;
 

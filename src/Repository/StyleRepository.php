@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Style;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Style>
@@ -39,20 +40,32 @@ class StyleRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Style[] Returns an array of Style objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+  /**
+    * @return Style[] Returns an array of Style objects
+    */
+    public function listeStylesComplete()
+    {
+        return $this->createQueryBuilder('stl')
+            ->select('stl','alb')
+            ->leftJoin('stl.albums','alb')
+            ->orderBy('stl.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+ 
+       /**
+     * @return Query[] Returns an array of Style objects
+     */
+     public function listeStylesCompletePaginee():Query
+     {
+         return $this->createQueryBuilder('stl')
+             ->select('stl','alb')
+             ->leftJoin('stl.albums','alb')
+             ->orderBy('stl.id', 'ASC')
+             ->getQuery()
+         ;
+     }
 
 //    public function findOneBySomeField($value): ?Style
 //    {
