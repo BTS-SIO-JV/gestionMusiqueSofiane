@@ -2,13 +2,24 @@
 
 namespace App\Entity;
 
-use App\Repository\AlbumRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+
+use App\Entity\Style;
+use App\Entity\Artiste;
+use App\Entity\Morceau;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AlbumRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=AlbumRepository::class)
+ * @UniqueEntity(
+ *     fields={"nom","artiste"},
+ *          message="il ne peut exister deux albums de méme nom pour un même artiste."
+ * )
  */
 class Album
 {
@@ -21,11 +32,23 @@ class Album
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le nom de l'album est obligatoire")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 50,
+     *      minMessage = "Le nom de l'album doit faire au minimum {{ limit }} caractères",
+     *      maxMessage = "Le nom de l'album doit faire au maximum {{ limit }} caractères"
+     *)
      */
     private $nom;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      min = 1940,
+     *      max = 2099,
+     *      notInRangeMessage = "L'année doit être entre {{min}} et {{max}}"
+     * )
      */
     private $date;
 
@@ -37,6 +60,7 @@ class Album
     /**
      * @ORM\ManyToOne(targetEntity=Artiste::class, inversedBy="albums")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message="L'artiste ne doit pas être nul")
      */
     private $artiste;
 
@@ -47,6 +71,10 @@ class Album
 
     /**
      * @ORM\ManyToMany(targetEntity=Style::class, mappedBy="albums")
+     * @Assert\Count(
+     *      min = 1,
+     *      minMessage = "Vous devez attribuer au moins 1 style"
+     * )
      */
     private $styles;
 

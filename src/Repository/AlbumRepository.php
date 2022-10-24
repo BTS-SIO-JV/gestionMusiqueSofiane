@@ -41,9 +41,9 @@ class AlbumRepository extends ServiceEntityRepository
     }
 
    /**
-    * @return Query[] Returns an array of Album objects
+    * @return Album[] Returns an array of Album objects
     */
-   public function listeAlbumsComplete(): ?Query
+    public function listeAlbumsComplete(): ?Query
    {
        return $this->createQueryBuilder('a')
             ->select('a','s','art','m')
@@ -54,6 +54,21 @@ class AlbumRepository extends ServiceEntityRepository
             ->getQuery()
        ;
    }
+ 
+       /**
+     * @return Query[] Returns an array of Style objects
+     */
+     public function listeAlbumsCompletePaginee():Query
+     {
+         return $this->createQueryBuilder('alb')
+             ->select('alb','art','stl','mrc')
+             ->leftJoin('alb.artiste','art')
+             ->leftJoin('alb.styles','stl')
+             ->leftJoin('alb.morceaux','mrc')
+             ->orderBy('alb.nom', 'ASC')
+             ->getQuery()
+         ;
+     }
 
 //    public function findOneBySomeField($value): ?Album
 //    {
