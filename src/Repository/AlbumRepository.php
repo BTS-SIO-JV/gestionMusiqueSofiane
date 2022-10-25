@@ -65,7 +65,7 @@ class AlbumRepository extends ServiceEntityRepository
              ->leftJoin('alb.artiste','art')
              ->leftJoin('alb.styles','stl')
              ->leftJoin('alb.morceaux','mrc')
-             ->orderBy('alb.nom', 'ASC')
+             ->orderBy('alb.id', 'DESC')
              ->getQuery()
          ;
      }

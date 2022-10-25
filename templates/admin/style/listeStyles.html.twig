@@ -4,55 +4,57 @@
 
 {% block body %}
 <h1 class="pt-2 text-center">Gestion des styles !</h1>
-<a href=" {{path("admin_style_ajout")}} " class="btn btn-success"><i class="fas fa-user-plus"></i> Ajouter un style <i class="fas fa-user-plus"></i></a>
+<a href=" {{path("admin_style_ajout")}} " class="btn btn-success"><i class="fas fa-music"></i> Ajouter un style <i class="fas fa-music"></i></a>
 <hr>
 
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col-2">Couleur</th>
-      <th scope="col-7">Nom</th>
-      <th scope="col-2">Nombre d'albums</th>
-      <th scope="col-1">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for leStyle in lesStyles %}
-        {% set nbAlbums = leStyle.albums|length %}
-        <tr class="table-secondary">
-            <td class="col-3">
-              <span style="height: 30px; width:50px; display:inline-block; border-radius: 25% 10%; border: solid; background-color:{{leStyle.couleur}}">
-            </span></td>
+<div class="row">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col-2">Couleur</th>
+        <th scope="col-7">Nom</th>
+        <th scope="col-2">Nombre d'albums</th>
+        <th scope="col-1">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for leStyle in lesStyles %}
+          {% set nbAlbums = leStyle.albums|length %}
+          <tr class="table-secondary">
+              <td class="col-3">
+                <span style="height: 30px; width:50px; display:inline-block; border-radius: 25% 10%; border: solid; background-color:{{leStyle.couleur}}">
+              </span></td>
 
-            <td class="col-5">{{leStyle.nom}}</td>
+              <td class="col-5">{{leStyle.nom}}</td>
 
-            <td class="col-2">
-              <p class="d-flex flex-row">
-                <span class="align-self-center badge badge-success"> {{nbAlbums}}  {% if nbAlbums>1 %} albums {% else %} album {% endif %}</span>
-              </p>
-            </td>
+              <td class="col-2">
+                <p class="d-flex flex-row">
+                  <span class="align-self-center badge badge-success"> {{nbAlbums}}  {% if nbAlbums>1 %} albums {% else %} album {% endif %}</span>
+                </p>
+              </td>
 
-            <td class="col-2">
-              <a href=" {{path('admin_style_modif', {'id': leStyle.id})}} " class="btn btn-primary"><i class="fas fa-pen"></i></i></a>
-              <!-- Button trigger modal -->
-              <a class="btn btn-danger" 
-                data-toggle="modal" 
-                data-target="#modalSimple"
-                data-titre="Suppression d'un style"
-                data-message="Etes vous sure de vouloir supprimer le style : {{leStyle.nom}}"
-                data-libelleBouton="Supprimer le style"
-                data-lien=" {{path('admin_style_suppression', {'id': leStyle.id})}} ">
-                <i class="far fa-trash-alt"></i>
-              </a>
-            </td>
-        </tr>
-    {% endfor %}
-  </tbody>
-</table>
+              <td class="col-2">
+                <a href=" {{path('admin_style_modif', {'id': leStyle.id})}} " class="btn btn-primary"><i class="fas fa-pen"></i></i></a>
+                <!-- Button trigger modal -->
+                <a class="btn btn-danger" 
+                  data-toggle="modal" 
+                  data-target="#modalSimple"
+                  data-titre="Suppression d'un style"
+                  data-message="Etes vous sure de vouloir supprimer le style : {{leStyle.nom}}"
+                  data-libelleBouton="Supprimer le style"
+                  data-lien=" {{path('admin_style_suppression', {'id': leStyle.id})}} ">
+                  <i class="far fa-trash-alt"></i>
+                </a>
+              </td>
+          </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-<div class="navigation mx-auto">
-        {{ knp_pagination_render(lesStyles) }}
-    </div>
+  <div class="navigation mx-auto">
+          {{ knp_pagination_render(lesStyles) }}
+      </div>
+  </div>
 </div>
 {% endblock %}
 

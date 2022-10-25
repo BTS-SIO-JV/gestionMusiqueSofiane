@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=AlbumRepository::class)
  * @UniqueEntity(
  *     fields={"nom","artiste"},
- *          message="il ne peut exister deux albums de méme nom pour un même artiste."
+ *          message="il ne peut exister deux albums de même nom pour un même artiste."
  * )
  */
 class Album
@@ -47,7 +47,7 @@ class Album
      * @Assert\Range(
      *      min = 1940,
      *      max = 2099,
-     *      notInRangeMessage = "L'année doit être entre {{min}} et {{max}}"
+     *      notInRangeMessage = "L'année doit être entre {{ min }} et {{ max }}"
      * )
      */
     private $date;
