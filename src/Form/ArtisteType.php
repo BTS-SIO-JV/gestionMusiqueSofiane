@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Artiste;
 use Faker\Provider\ar_JO\Text;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -25,7 +26,9 @@ class ArtisteType extends AbstractType
                     "placeholder"=>"Ex : Itachi"
                 ]
             ])
-            ->add('description',TextareaType::class)
+            ->add('description',CKEditorType::class,[
+                'config_name'=>'config-complete'
+            ])
             ->add('site',UrlType::class)
             ->add('image',TextType::class)
             ->add('type',ChoiceType::class,[

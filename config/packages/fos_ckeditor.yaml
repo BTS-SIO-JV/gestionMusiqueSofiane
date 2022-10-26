@@ -1,0 +1,28 @@
+# Read the documentation: https://symfony.com/doc/current/bundles/FOSCKEditorBundle/index.html
+
+twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+
+fos_ck_editor:
+    default_config: config-elargi
+    configs:
+        config-simple:
+            toolbar:    "basic"
+            uiColor:    "#f1bfb5"
+
+        config-elargi:
+            toolbar:    "standard"
+            uiColor:    "#7d7dff"
+
+        config-complete:
+            toolbar:    "full"
+            uiColor:    "#2da9ff"
+
+        ma-config:
+            toolbar: "ma-toolbar"
+            uiColor: "#2da9ff"
+
+    toolbars:
+        configs:
+            ma-toolbar: [ [ "Source", "-", "Save" ], "/", [ "Anchor" ], "/", [ "Maximize" ] ]
